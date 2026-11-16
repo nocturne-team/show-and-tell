@@ -22,9 +22,10 @@ public class ItemStackMixin {
 		ItemStack self = (ItemStack) (Object) this;
 		SharedContainer.kind(self).ifPresent(kind -> {
 			// Sized up front since trailing empty slots aren't stored
-			NonNullList<ItemStack> items = NonNullList.withSize(SharedContainer.slots(kind), ItemStack.EMPTY);
+			int slots = SharedContainer.slots(self, kind);
+			NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
 			self.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(items);
-			cir.setReturnValue(Optional.of(new GridTooltip(items, SharedContainer.columns(kind))));
+			cir.setReturnValue(Optional.of(new GridTooltip(items, SharedContainer.columns(kind, slots))));
 		});
 	}
 }

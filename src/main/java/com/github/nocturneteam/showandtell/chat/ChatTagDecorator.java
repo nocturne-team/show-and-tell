@@ -46,8 +46,16 @@ public final class ChatTagDecorator {
 			case ITEM -> item(player.getMainHandItem());
 			case INVENTORY -> container(player, tag, "%s's Inventory", inventory(player));
 			case ENDER -> container(player, tag, "%s's Ender Chest", contents(player.getEnderChestInventory()));
-			case ARMOR -> container(player, tag, "%s's Armor", ARMOR_SLOTS.stream().map(player::getItemBySlot).toList());
+			case ARMOR -> container(player, tag, "%s's Armor", armor(player));
 		};
+	}
+
+	/** Head to feet, plus the offhand only when something is in it. */
+	private static List<ItemStack> armor(ServerPlayer player) {
+		List<ItemStack> out = new ArrayList<>(ARMOR_SLOTS.stream().map(player::getItemBySlot).toList());
+		ItemStack offhand = player.getOffhandItem();
+		if (!offhand.isEmpty()) out.add(offhand);
+		return out;
 	}
 
 	private static Component item(ItemStack stack) {

@@ -19,6 +19,9 @@ import java.util.Optional;
  */
 public final class SharedContainer {
 	private static final String MARKER = "showandtell";
+	private static final String SLOTS = "showandtell_slots";
+	// Vanilla's container component limit
+	private static final int MAX_SLOTS = 256;
 
 	private SharedContainer() {}
 
@@ -32,6 +35,8 @@ public final class SharedContainer {
 		carrier.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(items));
 		CompoundTag data = new CompoundTag();
 		data.putString(MARKER, tag.primaryName());
+		// Slot count varies (armor + optional offhand) and trailing empties aren't stored
+		data.putInt(SLOTS, items.size());
 		carrier.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
 		return carrier;
 	}
@@ -42,16 +47,15 @@ public final class SharedContainer {
 		return data.copyTag().getString(MARKER).flatMap(ChatTag::byName);
 	}
 
-	public static int columns(ChatTag tag) {
-		return tag == ChatTag.ARMOR ? 4 : 9;
+	public static int slots(DataComponentGetter components, ChatTag kind) {
+		CustomData data = components.get(DataComponents.CUSTOM_DATA);
+		int fallback = kind == ChatTag.ENDER ? 27 : kind == ChatTag.ARMOR ? 4 : 36;
+		if (data == null) return fallback;
+		// Clamped so a crafted item can't make the client allocate something huge
+		return Math.clamp(data.copyTag().getIntOr(SLOTS, fallback), 1, MAX_SLOTS);
 	}
 
-	public static int slots(ChatTag tag) {
-		return switch (tag) {
-			case INVENTORY -> 36;
-			case ENDER -> 27;
-			case ARMOR -> 4;
-			case ITEM -> 1;
-		};
+	public static int columns(ChatTag kind, int slots) {
+		return kind == ChatTag.ARMOR ? slots : 9;
 	}
 }
