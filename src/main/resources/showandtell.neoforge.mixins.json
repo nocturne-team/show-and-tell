@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "com.github.nocturneteam.showandtell.mixin.neoforge",
+	"compatibilityLevel": "${java}",
+	"mixins": [
+		"MinecraftServerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

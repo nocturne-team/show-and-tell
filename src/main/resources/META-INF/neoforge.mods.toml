@@ -8,12 +8,15 @@ modId = "${id}"
 displayName = "${name}"
 version = "${version}"
 authors = "0x00ACAB"
-description = "Show off items, inventories and ender chests in chat with a click-to-inspect preview."
+description = "Show off your held item, inventory, ender chest and armor in chat."
 
 logoFile = "assets/showandtell/icon.png"
 
 [[mixins]]
 config = "showandtell.mixins.json"
+
+[[mixins]]
+config = "showandtell.neoforge.mixins.json"
 
 [[dependencies.${id}]]
 modId = "minecraft"

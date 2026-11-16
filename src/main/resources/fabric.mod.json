@@ -3,7 +3,7 @@
 	"id": "${id}",
 	"version": "${version}",
 	"name": "${name}",
-	"description": "Show off items, inventories and ender chests in chat with a click-to-inspect preview.",
+	"description": "Show off your held item, inventory, ender chest and armor in chat.",
 	"authors": ["0x00ACAB"],
 	"license": "CC0-1.0",
 	"icon": "assets/showandtell/icon.png",
