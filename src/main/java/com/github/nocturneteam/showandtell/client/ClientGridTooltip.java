@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 public class ClientGridTooltip implements ClientTooltipComponent {
 	private static final Identifier SLOT_SPRITE = Identifier.withDefaultNamespace("container/slot");
 	private static final int SLOT = 18;
+	// Same spacing as the hotbar in the inventory screen
+	private static final int GAP = 4;
 
 	private final GridTooltip grid;
 	private final int rows;
@@ -22,7 +24,11 @@ public class ClientGridTooltip implements ClientTooltipComponent {
 
 	@Override
 	public int getHeight(Font font) {
-		return rows * SLOT + 2;
+		return rows * SLOT + 2 + (hasGap() ? GAP : 0);
+	}
+
+	private boolean hasGap() {
+		return grid.gapBeforeRow() > 0 && grid.gapBeforeRow() < rows;
 	}
 
 	@Override
@@ -34,7 +40,8 @@ public class ClientGridTooltip implements ClientTooltipComponent {
 	public void extractImage(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
 		for (int i = 0; i < rows * grid.columns(); i++) {
 			int sx = x + (i % grid.columns()) * SLOT;
-			int sy = y + (i / grid.columns()) * SLOT;
+			int row = i / grid.columns();
+			int sy = y + row * SLOT + (hasGap() && row >= grid.gapBeforeRow() ? GAP : 0);
 			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_SPRITE, sx, sy, SLOT, SLOT);
 			ItemStack stack = i < grid.items().size() ? grid.items().get(i) : ItemStack.EMPTY;
 			if (stack.isEmpty()) {

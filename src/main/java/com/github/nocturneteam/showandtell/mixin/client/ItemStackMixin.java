@@ -30,7 +30,9 @@ public class ItemStackMixin {
 			NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
 			self.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(items);
 			List<Identifier> icons = kind == ChatTag.ARMOR ? ARMOR_ICONS : List.of();
-			cir.setReturnValue(Optional.of(new GridTooltip(items, SharedContainer.columns(kind, slots), icons)));
+			// Inventory is sent main rows first, hotbar last
+			int gapBeforeRow = kind == ChatTag.INVENTORY ? 3 : -1;
+			cir.setReturnValue(Optional.of(new GridTooltip(items, SharedContainer.columns(kind, slots), icons, gapBeforeRow)));
 		});
 	}
 
