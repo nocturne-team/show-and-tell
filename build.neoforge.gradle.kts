@@ -134,6 +134,8 @@ modrinth {
 	uploadFile.set(tasks.named("jar"))
 	// Stonecutter flattens TOML lists into mod.mc_releases.0, .1, ...
 	gameVersions.addAll(generateSequence(0) { it + 1 }.map { findProperty("mod.mc_releases.$it") as String? }.takeWhile { it != null }.filterNotNull().toList())
+	// Server does the work; the client mod only adds the slot grid and tag suggestions
+	environment = "server_only_client_optional"
 	loaders.add("neoforge")
 	dependencies {
 	}
