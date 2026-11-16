@@ -14,7 +14,6 @@ stonecutter parameters {
 		match(loader, "fabric", "neoforge")
 	}
 
-	swaps["mod_version"] = "\"${properties["mod.version"]}\";"
 	swaps["minecraft"] = "\"${current.version}\";"
 	constants["release"] = properties["mod.id"] != "template"
 	targets["fapi"] = properties.getOrNull("deps.fabric_api") ?: "0"

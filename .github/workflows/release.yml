@@ -13,6 +13,7 @@ jobs:
     env:
       # Publishing to Modrinth is skipped until this secret exists.
       MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,23 +31,39 @@ jobs:
             echo "::error::tag $GITHUB_REF_NAME does not match mod.version $version"
             exit 1
           fi
+          echo "MOD_VERSION=$version" >> "$GITHUB_ENV"
 
       - name: Build and test every version
         run: ./gradlew build
 
+      # Only versions whose jar content changed since the last release get published,
+      # e.g. adding 26.4 support doesn't re-upload the 26.1-26.3 jars.
+      - name: Find changed versions
+        run: |
+          python3 .github/scripts/fingerprint.py "$MOD_VERSION" fingerprints.json
+          previous=$(gh release list --limit 20 --json tagName -q '.[].tagName' | grep -vx "$GITHUB_REF_NAME" | head -n 1 || true)
+          if [ -n "$previous" ]; then
+            gh release download "$previous" --pattern fingerprints.json --output previous.json || echo "$previous has no fingerprints, publishing everything"
+          fi
+          changed=$(python3 .github/scripts/changed.py fingerprints.json previous.json)
+          echo "Previous release: ${previous:-none}"
+          echo "Changed: ${changed:-none}"
+          echo "CHANGED=$changed" >> "$GITHUB_ENV"
+
       - name: Create GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           prerelease=""
           case "$GITHUB_REF_NAME" in *-*) prerelease="--prerelease" ;; esac
-          jars=$(ls versions/*/build/libs/showandtell-*.jar | grep -v -- '-sources.jar$')
-          gh release create "$GITHUB_REF_NAME" $prerelease --generate-notes $jars
+          jars=""
+          for node in $CHANGED; do
+            jars="$jars $(ls versions/$node/build/libs/showandtell-*.jar | grep -v -- '-sources.jar$')"
+          done
+          gh release create "$GITHUB_REF_NAME" $prerelease --generate-notes $jars fingerprints.json
 
       - name: Publish to Modrinth
-        if: env.MODRINTH_TOKEN != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
+        if: env.MODRINTH_TOKEN != '' && env.CHANGED != ''
         run: |
           export CHANGELOG="$(gh release view "$GITHUB_REF_NAME" --json body -q .body)"
-          ./gradlew modrinth
+          tasks=""
+          for node in $CHANGED; do tasks="$tasks :$node:modrinth"; done
+          ./gradlew $tasks
