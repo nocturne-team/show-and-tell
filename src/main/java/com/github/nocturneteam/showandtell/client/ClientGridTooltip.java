@@ -3,13 +3,14 @@ package com.github.nocturneteam.showandtell.client;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
-/** Draws shared items as a slot grid inside the tooltip. */
+/** Draws shared items as a grid of vanilla inventory slots inside the tooltip. */
 public class ClientGridTooltip implements ClientTooltipComponent {
+	private static final Identifier SLOT_SPRITE = Identifier.withDefaultNamespace("container/slot");
 	private static final int SLOT = 18;
-	private static final int SLOT_BORDER = 0x40FFFFFF;
-	private static final int SLOT_FILL = 0x30000000;
 
 	private final GridTooltip grid;
 	private final int rows;
@@ -34,11 +35,14 @@ public class ClientGridTooltip implements ClientTooltipComponent {
 		for (int i = 0; i < rows * grid.columns(); i++) {
 			int sx = x + (i % grid.columns()) * SLOT;
 			int sy = y + (i / grid.columns()) * SLOT;
-			graphics.fill(sx, sy, sx + SLOT, sy + SLOT, SLOT_BORDER);
-			graphics.fill(sx + 1, sy + 1, sx + SLOT - 1, sy + SLOT - 1, SLOT_FILL);
-			if (i >= grid.items().size()) continue;
-			ItemStack stack = grid.items().get(i);
-			if (stack.isEmpty()) continue;
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_SPRITE, sx, sy, SLOT, SLOT);
+			ItemStack stack = i < grid.items().size() ? grid.items().get(i) : ItemStack.EMPTY;
+			if (stack.isEmpty()) {
+				if (i < grid.emptyIcons().size()) {
+					graphics.blitSprite(RenderPipelines.GUI_TEXTURED, grid.emptyIcons().get(i), sx + 1, sy + 1, 16, 16);
+				}
+				continue;
+			}
 			graphics.item(stack, sx + 1, sy + 1);
 			graphics.itemDecorations(font, stack, sx + 1, sy + 1);
 		}
