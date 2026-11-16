@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "${id}",
+	"version": "${version}",
+	"name": "${name}",
+	"description": "Show off items, inventories and ender chests in chat with a click-to-inspect preview.",
+	"authors": ["0x00ACAB"],
+	"license": "CC0-1.0",
+	"icon": "assets/showandtell/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.github.nocturneteam.showandtell.ShowAndTellFabric"
+		],
+		"client": [
+			"com.github.nocturneteam.showandtell.ShowAndTellFabricClient"
+		]
+	},
+	"mixins": [
+		"showandtell.mixins.json"
+	],
+	"accessWidener": "showandtell.ct",
+	"depends": {
+		"fabricloader": ">=${loader}",
+		"minecraft": "${minecraft}",
+		"fabric-message-api-v1": "*",
+		"fabric-rendering-v1": "*"
+	}
+}

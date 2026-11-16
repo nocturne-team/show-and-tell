@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"package": "com.github.nocturneteam.showandtell.mixin",
+	"compatibilityLevel": "${java}",
+	"mixins": [
+		"PlayerListMixin"
+	],
+	"client": [
+		"client.CommandSuggestionsMixin",
+		"client.ItemContainerContentsMixin",
+		"client.ItemStackMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

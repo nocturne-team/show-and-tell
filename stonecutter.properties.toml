@@ -1,0 +1,41 @@
+# See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
+mod.id = "showandtell"
+mod.name = "Show and Tell"
+mod.group = "com.github.nocturneteam.showandtell"
+mod.version = "0.1.0"
+
+deps.fabric_loader = "0.20.1"
+loomx.loom_version = "1.19-SNAPSHOT"
+
+["26.1.2"]
+mod.mc_releases = ["26.1", "26.1.1", "26.1.2"]
+
+[fabric."26.1.2"]
+mod.mc_compat = ">=26.1 <=26.1.2"
+deps.fabric_api = "0.155.3+26.1.2"
+
+[neoforge."26.1.2"]
+mod.mc_compat = "[26.1, 26.2)"
+deps.neo_loader = "26.1.2.126"
+
+["26.2"]
+mod.mc_releases = ["26.2"]
+
+[fabric."26.2"]
+mod.mc_compat = "~26.2"
+deps.fabric_api = "0.161.0+26.2"
+
+[neoforge."26.2"]
+mod.mc_compat = "[26.2, 26.3)"
+deps.neo_loader = "26.2.0.93"
+
+["26.3"]
+mod.mc_releases = ["26.3"]
+
+[fabric."26.3"]
+mod.mc_compat = "~26.3"
+deps.fabric_api = "0.166.2+26.3"
+
+[neoforge."26.3"]
+mod.mc_compat = "[26.3, 26.4)"
+deps.neo_loader = "26.3.0.103"
