@@ -13,3 +13,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # v6+ moves caching into a proprietary component under Gradle's commercial terms; v5 is MIT
+      - dependency-name: "gradle/actions"
+        versions: [">=6"]
