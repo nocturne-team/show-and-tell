@@ -134,7 +134,7 @@ tasks {
 modrinth {
 	val modVersion = sc.properties["mod.version"]
 	token = providers.environmentVariable("MODRINTH_TOKEN")
-	projectId = "show-and-tell"
+	projectId = "p229Avz1"
 	// MODRINTH_DEBUG=true prints what would be uploaded instead of uploading.
 	debugMode = providers.environmentVariable("MODRINTH_DEBUG").map { it == "true" }.orElse(false)
 	versionNumber = "$modVersion+${sc.current.version}-fabric"
