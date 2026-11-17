@@ -1,37 +1,49 @@
-# Show and Tell
+# show and tell
 
-Show off what you're holding, your inventory, your ender chest or your armor in chat.
+[modrinth](https://modrinth.com/mod/show-and-tell) | [issues](https://github.com/nocturne-team/show-and-tell/issues)
 
-Type a tag anywhere in a message and it turns into something people can hover:
+## overview
 
-| Tag | Aliases | Shows |
+show off what you're holding, your inventory, your ender chest and more in chat! type a tag anywhere in a message and it turns into something people can hover over.
+
+## tags
+
+| tag | aliases | shows |
 |---|---|---|
-| `[item]` | `[i]` | The item in your main hand, with its full tooltip |
-| `[offhand]` | `[oh]` | The item in your offhand |
-| `[inv]` | `[inventory]` | Your inventory, hotbar at the bottom |
-| `[ender]` | `[ec]`, `[enderchest]` | Your ender chest |
-| `[armor]` | `[armour]` | Your armor, plus your offhand if it holds something |
-| `[pos]` | `[loc]`, `[coords]` | Your coordinates and dimension; clicking it fills in a teleport command |
-| `[backpack]` | `[bp]` | The backpack in your hand, or the one you're wearing ([Traveler's Backpack](https://modrinth.com/mod/travelersbackpack), or [Sophisticated Backpacks](https://modrinth.com/mod/sophisticated-backpacks) on NeoForge) |
-| `[accessories]` | `[acc]`, `[curios]`, `[trinkets]` | Your equipped accessories: [Curios](https://modrinth.com/mod/curios) on NeoForge, [Trinkets Updated](https://modrinth.com/mod/trinkets-updated) on Fabric |
+| `[item]` | `[i]` | the item in your main hand, with its full tooltip |
+| `[offhand]` | `[oh]` | the item in your offhand |
+| `[inv]` | `[inventory]` | your inventory, hotbar at the bottom |
+| `[ender]` | `[ec]`, `[enderchest]` | your ender chest |
+| `[armor]` | `[armour]` | your armor, plus your offhand if it holds something |
+| `[pos]` | `[loc]`, `[coords]` | your coordinates and dimension; click it to fill in a teleport command |
+| `[backpack]` | `[bp]` | the backpack in your hand, or the one you're wearing |
+| `[accessories]` | `[acc]`, `[curios]`, `[trinkets]` | your equipped accessories |
 
-Up to three tags per message are replaced. Write `\[item]` to send the tag as plain text.
+up to three tags per message get replaced. write `\[item]` to send a tag as plain text. tags also work in `/msg`, `/me`, `/say` and `/teammsg`.
 
-Tags also work in `/msg`, `/me`, `/say` and `/teammsg`.
+## features
 
-## Server and client
+- only the server needs it! players without the mod still get the hover tooltips, since everything is vanilla chat components
+- with the mod on your client, containers show as a grid of slots instead of a list
+- clicking a container tag opens it in a screen where every item has its full tooltip
+- typing `[` in chat suggests the tags you can use
+- per-tag permissions, a cooldown, and a tag limit per message
 
-The server does the work, so it's the only side that needs the mod. Players without it still get the hover tooltips, since everything uses vanilla chat components. Inventories show up for them as a short list, the same way a shulker box tooltip does.
+## dependencies
 
-Players with the mod installed get a bit more:
+- fabric api (on fabric)
 
-- clicking a container tag opens it in a screen where every item shows its full tooltip
-- inventories, ender chests and armor show as a grid of inventory slots instead of a list
-- typing `[` in chat pops up the available tags
+## mod integrations
 
-## Config
+- curios (`[accessories]` on neoforge)
+- trinkets updated (`[accessories]` on fabric)
+- traveler's backpack (`[backpack]`)
+- sophisticated backpacks (`[backpack]` on neoforge)
+- fabric permissions api / luckperms (per-tag permissions)
 
-The server reads `config/showandtell.json`, written with defaults on first start. After editing it, run `/showandtell reload` or restart.
+## config
+
+the server reads `config/showandtell.json`, written with defaults on first start. after editing it, run `/showandtell reload` or restart.
 
 ```jsonc
 {
@@ -44,36 +56,38 @@ The server reads `config/showandtell.json`, written with defaults on first start
 }
 ```
 
-Disabled tags stay as typed text and don't show up in tag suggestions.
+disabled tags stay as typed text and don't show up in suggestions.
 
-## Permissions
+## permissions
 
-With a permissions mod such as LuckPerms, each tag has its own node:
+with a permissions mod such as luckperms, each tag gets its own node:
 
-| Node | Default |
+| node | default |
 |---|---|
 | `showandtell.tag.<tag>` (`item`, `offhand`, `inv`, `ender`, `armor`, `pos`, `accessories`, `backpack`) | everyone |
 | `showandtell.bypass.cooldown` | ops |
 | `showandtell.command.reload` | ops |
 
-NeoForge has the permission API built in. On Fabric it needs [fabric-permissions-api](https://modrinth.com/mod/fabric-permissions-api). Without a permissions mod, the defaults above apply.
+neoforge has a permission api built in. on fabric it needs [fabric-permissions-api](https://modrinth.com/mod/fabric-permissions-api). without one, the defaults above apply.
 
-## Versions
+## versions
 
-Fabric and NeoForge, Minecraft 26.1 to 26.3. Fabric needs Fabric API.
+fabric and neoforge, minecraft 26.1 to 26.3.
 
-## Building
+## building
 
-Built with [Stonecutter](https://stonecutter.kikugie.dev/). Gradle needs Java 25:
+built with [stonecutter](https://stonecutter.kikugie.dev/). gradle needs java 25:
 
 ```
 ./gradlew build
 ```
 
-Jars end up in `versions/<minecraft>-<loader>/build/libs/`.
+jars end up in `versions/<minecraft>-<loader>/build/libs/`.
 
-Add `-Psnapshots` to also build the current Minecraft snapshot (Fabric only), `-Pcurios` to put Curios in NeoForge dev runs, `-Ptrinkets` for Trinkets Updated in Fabric ones, `-Pbackpacks` for both backpack mods, and `-Pluckperms` for LuckPerms (26.3 only).
+dev run flags: `-Psnapshots` also builds the current snapshot (fabric only), `-Pcurios` adds curios to neoforge runs, `-Ptrinkets` adds trinkets updated to fabric runs, `-Pbackpacks` adds both backpack mods, and `-Pluckperms` adds luckperms (26.3 only).
 
-## Credits
+## credits
 
-Icon from [pixelarticons](https://github.com/halfmage/pixelarticons) by Gerrit Halfmann (MIT).
+thank you to:
+
+- Gerrit Halfmann ([pixelarticons](https://github.com/halfmage/pixelarticons), MIT) for the icon

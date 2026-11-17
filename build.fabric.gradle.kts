@@ -175,5 +175,8 @@ modrinth {
 		required.project("fabric-api")
 		optional.project("fabric-permissions-api")
 		optional.project("travelersbackpack")
+		optional.project("trinkets-updated")
 	}
+	// `modrinthSyncBody` uploads the project page
+	syncBodyFrom = rootProject.file("modrinth.md").readText()
 }

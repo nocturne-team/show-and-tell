@@ -66,4 +66,4 @@ jobs:
           export CHANGELOG="$(gh release view "$GITHUB_REF_NAME" --json body -q .body)"
           tasks=""
           for node in $CHANGED; do tasks="$tasks :$node:modrinth"; done
-          ./gradlew $tasks
+          ./gradlew $tasks :26.3-fabric:modrinthSyncBody
