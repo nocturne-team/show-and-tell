@@ -3,7 +3,7 @@
 	"showandtell.tag.ender": "Endertruhe von %s",
 	"showandtell.tag.armor": "Rüstung von %s",
 	"showandtell.tag.pos": "%s, %s, %s (%s)",
-	"showandtell.tag.curios": "Curios von %s",
+	"showandtell.tag.accessories": "Accessoires von %s",
 	"showandtell.tag.backpack": "Rucksack von %s",
 	"showandtell.cooldown": "Warte noch %s s, bevor du wieder etwas zeigst",
 	"showandtell.pos.hover": "Klicken, um einen Teleport hierher vorzuschlagen",

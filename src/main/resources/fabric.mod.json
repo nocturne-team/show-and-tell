@@ -3,7 +3,7 @@
 	"id": "${id}",
 	"version": "${version}",
 	"name": "${name}",
-	"description": "Show off your held item, inventory, ender chest and armor in chat.",
+	"description": "Show off your held item, inventory, ender chest, armor, accessories and backpack in chat.",
 	"authors": ["0x00ACAB"],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/show-and-tell",
@@ -33,6 +33,7 @@
 		"fabric-command-api-v2": "*"
 	},
 	"suggests": {
-		"fabric-permissions-api-v0": "*"
+		"fabric-permissions-api-v0": "*",
+		"trinkets": "*"
 	}
 }

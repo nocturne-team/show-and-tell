@@ -53,6 +53,22 @@ dependencies {
 	modCompileOnly("maven.modrinth:fabric-permissions-api:${sc.properties["deps.fabric_permissions"]}")
 	// Optional [backpack] support; absent on snapshot nodes
 	(findProperty("deps.travelers") as String?)?.let { modCompileOnly("maven.modrinth:travelersbackpack:$it") }
+	// Optional [accessories] support through Trinkets Updated; absent on snapshot nodes
+	(findProperty("deps.trinkets") as String?)?.let {
+		modCompileOnly("maven.modrinth:trinkets-updated:$it")
+		// `-Ptrinkets` adds it to dev runs; it needs the full Fabric API
+		if (providers.gradleProperty("trinkets").isPresent) {
+			modLocalRuntime("maven.modrinth:trinkets-updated:$it")
+			modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties["deps.fabric_api"]}")
+		}
+	}
+	// `-Pbackpacks` runs Traveler's Backpack in dev (26.3 only); it needs the full Fabric API and Forge Config API Port
+	val configPort = findProperty("deps.forge_config_port") as String?
+	if (providers.gradleProperty("backpacks").isPresent && configPort != null) {
+		modLocalRuntime("maven.modrinth:travelersbackpack:${sc.properties["deps.travelers"]}")
+		modLocalRuntime("maven.modrinth:forge-config-api-port:$configPort")
+		modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties["deps.fabric_api"]}")
+	}
 
 	testImplementation(platform("org.junit:junit-bom:5.11.3"))
 	testImplementation("org.junit.jupiter:junit-jupiter")

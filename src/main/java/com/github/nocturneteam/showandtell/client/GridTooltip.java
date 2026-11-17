@@ -40,7 +40,7 @@ public record GridTooltip(List<ItemStack> items, int columns, List<Identifier> e
 			carrier.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(items);
 			List<Identifier> icons = switch (kind) {
 				case ARMOR -> ARMOR_ICONS;
-				case CURIOS -> SharedContainer.icons(carrier, slots);
+				case ACCESSORIES -> SharedContainer.icons(carrier, slots);
 				default -> List.of();
 			};
 			// Inventory is sent main rows first, hotbar last

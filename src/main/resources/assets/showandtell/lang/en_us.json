@@ -3,7 +3,7 @@
 	"showandtell.tag.ender": "%s's Ender Chest",
 	"showandtell.tag.armor": "%s's Armor",
 	"showandtell.tag.pos": "%s, %s, %s in %s",
-	"showandtell.tag.curios": "%s's Curios",
+	"showandtell.tag.accessories": "%s's Accessories",
 	"showandtell.tag.backpack": "%s's Backpack",
 	"showandtell.cooldown": "Wait %s s before showing things again",
 	"showandtell.pos.hover": "Click to suggest a teleport here",

@@ -75,7 +75,7 @@ public final class ChatTagDecorator {
 			case ENDER -> container(player, tag, "%s's Ender Chest", contents(player.getEnderChestInventory()));
 			case ARMOR -> container(player, tag, "%s's Armor", armor(player));
 			case POS -> position(player);
-			case CURIOS -> container(player, tag, "%s's Curios", curios(player));
+			case ACCESSORIES -> container(player, tag, "%s's Accessories", accessories(player));
 			case BACKPACK -> BackpackCompat.find(player)
 				.map(slots -> container(player, tag, "%s's Backpack", slots))
 				// No backpack: leave the tag as typed
@@ -113,11 +113,11 @@ public final class ChatTagDecorator {
 		return false;
 	}
 
-	private static SharedContainer.Slots curios(ServerPlayer player) {
+	private static SharedContainer.Slots accessories(ServerPlayer player) {
 		//? if neoforge {
 		/*return com.github.nocturneteam.showandtell.compat.CuriosCompat.slots(player);
 		*///?} else {
-		return new SharedContainer.Slots(List.of(), List.of());
+		return com.github.nocturneteam.showandtell.compat.TrinketsCompat.slots(player);
 		//?}
 	}
 

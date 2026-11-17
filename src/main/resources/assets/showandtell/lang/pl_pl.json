@@ -3,7 +3,7 @@
 	"showandtell.tag.ender": "Skrzynia Kresu gracza %s",
 	"showandtell.tag.armor": "Zbroja gracza %s",
 	"showandtell.tag.pos": "%s, %s, %s (%s)",
-	"showandtell.tag.curios": "Curios gracza %s",
+	"showandtell.tag.accessories": "Akcesoria gracza %s",
 	"showandtell.tag.backpack": "Plecak gracza %s",
 	"showandtell.cooldown": "Poczekaj %s s, zanim znów coś pokażesz",
 	"showandtell.pos.hover": "Kliknij, aby wstawić komendę teleportu w to miejsce",

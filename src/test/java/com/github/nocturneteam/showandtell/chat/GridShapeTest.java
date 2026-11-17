@@ -13,6 +13,6 @@ class GridShapeTest {
 		assertEquals(18, GridShape.columns(ChatTag.BACKPACK, 126));
 		assertEquals(18, GridShape.columns(ChatTag.BACKPACK, 256));
 		assertEquals(5, GridShape.columns(ChatTag.ARMOR, 5));
-		assertEquals(4, GridShape.columns(ChatTag.CURIOS, 4));
+		assertEquals(4, GridShape.columns(ChatTag.ACCESSORIES, 4));
 	}
 }

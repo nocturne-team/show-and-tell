@@ -18,12 +18,14 @@ class ChatTagTest {
 		assertEquals(Optional.of(ChatTag.ENDER), ChatTag.byName("ec"));
 		assertEquals(Optional.of(ChatTag.ARMOR), ChatTag.byName("Armor"));
 		assertEquals(Optional.of(ChatTag.ARMOR), ChatTag.byName("armour"));
+		assertEquals(Optional.of(ChatTag.ACCESSORIES), ChatTag.byName("curios"));
+		assertEquals(Optional.of(ChatTag.ACCESSORIES), ChatTag.byName("trinkets"));
 		assertEquals(Optional.empty(), ChatTag.byName("nope"));
 	}
 
 	@Test
 	void completionsUsePrimaryNames() {
-		assertEquals(List.of("[item]", "[offhand]", "[inv]", "[ender]", "[armor]", "[pos]", "[curios]", "[backpack]"), ChatTag.completions(t -> true));
+		assertEquals(List.of("[item]", "[offhand]", "[inv]", "[ender]", "[armor]", "[pos]", "[accessories]", "[backpack]"), ChatTag.completions(t -> true));
 	}
 
 	@Test
@@ -33,7 +35,7 @@ class ChatTagTest {
 
 	@Test
 	void onlyModTagsNeedAMod() {
-		assertEquals(List.of("curios"), ChatTag.CURIOS.requiredMods());
+		assertEquals(List.of("curios", "trinkets"), ChatTag.ACCESSORIES.requiredMods());
 		assertEquals(List.of(), ChatTag.ITEM.requiredMods());
 	}
 

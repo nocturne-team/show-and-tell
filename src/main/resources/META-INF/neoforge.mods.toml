@@ -10,7 +10,7 @@ displayName = "${name}"
 version = "${version}"
 authors = "0x00ACAB"
 displayURL = "https://modrinth.com/mod/show-and-tell"
-description = "Show off your held item, inventory, ender chest, armor and curios in chat."
+description = "Show off your held item, inventory, ender chest, armor, accessories and backpack in chat."
 
 ${icon_key} = "assets/showandtell/icon.png"
 
@@ -27,7 +27,7 @@ versionRange = "${minecraft}"
 ordering = "NONE"
 side = "BOTH"
 
-# Adds the [curios] tag
+# Adds the [accessories] tag
 [[dependencies.${id}]]
 modId = "curios"
 type = "optional"

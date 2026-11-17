@@ -13,8 +13,8 @@ public enum ChatTag {
 	ENDER(List.of(), "ender", "ec", "enderchest"),
 	ARMOR(List.of(), "armor", "armour"),
 	POS(List.of(), "pos", "loc", "coords"),
-	// NeoForge only on 26.x
-	CURIOS(List.of("curios"), "curios", "curio"),
+	// Curios (NeoForge) or Trinkets Updated (Fabric)
+	ACCESSORIES(List.of("curios", "trinkets"), "accessories", "acc", "curios", "curio", "trinkets", "trinket"),
 	// Traveler's Backpack (both loaders) or Sophisticated Backpacks (NeoForge)
 	BACKPACK(List.of("travelersbackpack", "sophisticatedbackpacks"), "backpack", "bp");
 
