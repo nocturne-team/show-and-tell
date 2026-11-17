@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 
 public enum ChatTag {
 	ITEM(null, "item", "i"),
+	OFFHAND(null, "offhand", "oh"),
 	INVENTORY(null, "inv", "inventory"),
 	ENDER(null, "ender", "ec", "enderchest"),
 	ARMOR(null, "armor", "armour"),

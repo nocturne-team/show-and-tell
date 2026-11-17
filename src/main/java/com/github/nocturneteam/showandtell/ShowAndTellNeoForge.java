@@ -6,6 +6,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.ServerChatEvent;
 import net.neoforged.neoforge.server.permission.events.PermissionGatherEvent;
 
@@ -15,6 +16,7 @@ public class ShowAndTellNeoForge {
 		ShowAndTellCommon.init();
 		NeoForge.EVENT_BUS.addListener(ServerChatEvent.class, e -> e.setMessage(ChatTagDecorator.decorate(e.getPlayer(), e.getMessage())));
 		NeoForge.EVENT_BUS.addListener(PermissionGatherEvent.Nodes.class, NeoForgePermissions::register);
+		NeoForge.EVENT_BUS.addListener(RegisterCommandsEvent.class, e -> ShowAndTellCommand.register(e.getDispatcher()));
 	}
 }
 *///?}

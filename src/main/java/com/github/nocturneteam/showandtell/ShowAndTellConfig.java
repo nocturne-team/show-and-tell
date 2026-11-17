@@ -41,7 +41,8 @@ public record ShowAndTellConfig(Set<ChatTag> disabledTags, int maxTagsPerMessage
 		return !disabledTags.contains(tag);
 	}
 
-	static void load(Path dir) {
+	/** Reads the file, writing defaults first if it's missing. On a bad file the previous settings stay. */
+	public static boolean load(Path dir) {
 		Path file = dir.resolve(ShowAndTellCommon.MOD_ID + ".json");
 		try {
 			if (Files.notExists(file)) {
@@ -49,9 +50,10 @@ public record ShowAndTellConfig(Set<ChatTag> disabledTags, int maxTagsPerMessage
 				Files.writeString(file, DEFAULT_FILE);
 			}
 			current = parse(Files.readString(file));
+			return true;
 		} catch (IOException | RuntimeException e) {
-			ShowAndTellCommon.LOGGER.error("Couldn't read {}, using defaults", file, e);
-			current = DEFAULT;
+			ShowAndTellCommon.LOGGER.error("Couldn't read {}, keeping the previous settings", file, e);
+			return false;
 		}
 	}
 

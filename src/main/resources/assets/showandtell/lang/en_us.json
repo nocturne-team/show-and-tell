@@ -8,5 +8,7 @@
 	"showandtell.pos.hover": "Click to suggest a teleport here",
 	"showandtell.dimension.minecraft.overworld": "the Overworld",
 	"showandtell.dimension.minecraft.the_nether": "the Nether",
-	"showandtell.dimension.minecraft.the_end": "the End"
+	"showandtell.dimension.minecraft.the_end": "the End",
+	"showandtell.command.reload.done": "Show and Tell config reloaded",
+	"showandtell.command.reload.failed": "Couldn't read config/showandtell.json, kept the previous settings (see the server log)"
 }

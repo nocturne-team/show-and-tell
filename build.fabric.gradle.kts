@@ -48,7 +48,7 @@ dependencies {
 
 	// Use `mod{dependency type}` even on 26.1+ - loom-back-compat converts them
 	modImplementation("net.fabricmc:fabric-loader:${sc.properties["deps.fabric_loader"]}")
-	fapi("fabric-message-api-v1", "fabric-rendering-v1")
+	fapi("fabric-message-api-v1", "fabric-rendering-v1", "fabric-command-api-v2")
 	// Optional: per-tag permissions through LuckPerms and co.
 	modCompileOnly("maven.modrinth:fabric-permissions-api:${sc.properties["deps.fabric_permissions"]}")
 

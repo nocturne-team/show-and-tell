@@ -29,7 +29,8 @@
 		"fabricloader": ">=${loader}",
 		"minecraft": "${minecraft}",
 		"fabric-message-api-v1": "*",
-		"fabric-rendering-v1": "*"
+		"fabric-rendering-v1": "*",
+		"fabric-command-api-v2": "*"
 	},
 	"suggests": {
 		"fabric-permissions-api-v0": "*"

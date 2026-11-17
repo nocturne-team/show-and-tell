@@ -67,7 +67,8 @@ public final class ChatTagDecorator {
 
 	private static Component render(ServerPlayer player, ChatTag tag) {
 		return switch (tag) {
-			case ITEM -> item(player.getMainHandItem());
+			case ITEM -> item(player.getMainHandItem(), tag);
+			case OFFHAND -> item(player.getOffhandItem(), tag);
 			case INVENTORY -> container(player, tag, "%s's Inventory", inventory(player));
 			case ENDER -> container(player, tag, "%s's Ender Chest", contents(player.getEnderChestInventory()));
 			case ARMOR -> container(player, tag, "%s's Armor", armor(player));
@@ -122,9 +123,9 @@ public final class ChatTagDecorator {
 		return out;
 	}
 
-	private static Component item(ItemStack stack) {
+	private static Component item(ItemStack stack, ChatTag tag) {
 		// Empty hand: leave the tag as typed
-		if (stack.isEmpty()) return Component.literal("[item]");
+		if (stack.isEmpty()) return Component.literal("[" + tag.primaryName() + "]");
 		MutableComponent name = stack.getDisplayName().copy();
 		if (stack.getCount() > 1) name.append(" x" + stack.getCount());
 		return name;

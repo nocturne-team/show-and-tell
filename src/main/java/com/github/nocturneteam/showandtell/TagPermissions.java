@@ -10,6 +10,7 @@ import java.util.List;
 /** Permission nodes; without a permissions mod, tags are open to everyone and the bypass is ops only. */
 public final class TagPermissions {
 	public static final String COOLDOWN_BYPASS = "showandtell.bypass.cooldown";
+	public static final String RELOAD = "showandtell.command.reload";
 
 	private TagPermissions() {}
 
@@ -21,6 +22,7 @@ public final class TagPermissions {
 	public static List<Node> nodes() {
 		List<Node> out = new java.util.ArrayList<>(Arrays.stream(ChatTag.values()).map(t -> new Node(node(t), false)).toList());
 		out.add(new Node(COOLDOWN_BYPASS, true));
+		out.add(new Node(RELOAD, true));
 		return out;
 	}
 

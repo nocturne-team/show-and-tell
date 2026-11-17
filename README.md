@@ -7,6 +7,7 @@ Type a tag anywhere in a message and it turns into something people can hover:
 | Tag | Aliases | Shows |
 |---|---|---|
 | `[item]` | `[i]` | The item in your main hand, with its full tooltip |
+| `[offhand]` | `[oh]` | The item in your offhand |
 | `[inv]` | `[inventory]` | Your inventory, hotbar at the bottom |
 | `[ender]` | `[ec]`, `[enderchest]` | Your ender chest |
 | `[armor]` | `[armour]` | Your armor, plus your offhand if it holds something |
@@ -28,7 +29,7 @@ Players with the mod installed get a bit more:
 
 ## Config
 
-The server reads `config/showandtell.json`, written with defaults on first start. Restart the server after editing it.
+The server reads `config/showandtell.json`, written with defaults on first start. After editing it, run `/showandtell reload` or restart.
 
 ```jsonc
 {
@@ -49,8 +50,9 @@ With a permissions mod such as LuckPerms, each tag has its own node:
 
 | Node | Default |
 |---|---|
-| `showandtell.tag.<tag>` (`item`, `inv`, `ender`, `armor`, `pos`, `curios`) | everyone |
+| `showandtell.tag.<tag>` (`item`, `offhand`, `inv`, `ender`, `armor`, `pos`, `curios`) | everyone |
 | `showandtell.bypass.cooldown` | ops |
+| `showandtell.command.reload` | ops |
 
 NeoForge has the permission API built in. On Fabric it needs [fabric-permissions-api](https://modrinth.com/mod/fabric-permissions-api). Without a permissions mod, the defaults above apply.
 

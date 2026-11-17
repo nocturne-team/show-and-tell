@@ -23,7 +23,7 @@ class ChatTagTest {
 
 	@Test
 	void completionsUsePrimaryNames() {
-		assertEquals(List.of("[item]", "[inv]", "[ender]", "[armor]", "[pos]", "[curios]"), ChatTag.completions(t -> true));
+		assertEquals(List.of("[item]", "[offhand]", "[inv]", "[ender]", "[armor]", "[pos]", "[curios]"), ChatTag.completions(t -> true));
 	}
 
 	@Test

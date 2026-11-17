@@ -8,5 +8,7 @@
 	"showandtell.pos.hover": "Klicken, um einen Teleport hierher vorzuschlagen",
 	"showandtell.dimension.minecraft.overworld": "Oberwelt",
 	"showandtell.dimension.minecraft.the_nether": "Nether",
-	"showandtell.dimension.minecraft.the_end": "Ende"
+	"showandtell.dimension.minecraft.the_end": "Ende",
+	"showandtell.command.reload.done": "Show-and-Tell-Konfiguration neu geladen",
+	"showandtell.command.reload.failed": "config/showandtell.json konnte nicht gelesen werden, die bisherigen Einstellungen bleiben (siehe Serverlog)"
 }

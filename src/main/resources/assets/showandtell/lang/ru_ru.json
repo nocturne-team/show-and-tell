@@ -8,5 +8,7 @@
 	"showandtell.pos.hover": "Нажмите, чтобы подставить команду телепортации сюда",
 	"showandtell.dimension.minecraft.overworld": "Верхний мир",
 	"showandtell.dimension.minecraft.the_nether": "Нижний мир",
-	"showandtell.dimension.minecraft.the_end": "Край"
+	"showandtell.dimension.minecraft.the_end": "Край",
+	"showandtell.command.reload.done": "Конфигурация Show and Tell перезагружена",
+	"showandtell.command.reload.failed": "Не удалось прочитать config/showandtell.json, прежние настройки сохранены (см. лог сервера)"
 }
