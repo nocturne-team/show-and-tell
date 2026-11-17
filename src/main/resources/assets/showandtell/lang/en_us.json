@@ -1,5 +1,7 @@
 {
 	"showandtell.tag.inv": "%s's Inventory",
 	"showandtell.tag.ender": "%s's Ender Chest",
-	"showandtell.tag.armor": "%s's Armor"
+	"showandtell.tag.armor": "%s's Armor",
+	"showandtell.tag.curios": "%s's Curios",
+	"showandtell.cooldown": "Wait %s s before showing things again"
 }

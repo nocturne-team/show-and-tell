@@ -29,7 +29,11 @@ public class ItemStackMixin {
 			int slots = SharedContainer.slots(self, kind);
 			NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
 			self.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(items);
-			List<Identifier> icons = kind == ChatTag.ARMOR ? ARMOR_ICONS : List.of();
+			List<Identifier> icons = switch (kind) {
+				case ARMOR -> ARMOR_ICONS;
+				case CURIOS -> SharedContainer.icons(self, slots);
+				default -> List.of();
+			};
 			// Inventory is sent main rows first, hotbar last
 			int gapBeforeRow = kind == ChatTag.INVENTORY ? 3 : -1;
 			cir.setReturnValue(Optional.of(new GridTooltip(items, SharedContainer.columns(kind, slots), icons, gapBeforeRow)));

@@ -41,6 +41,8 @@ stonecutter {
 		match("26.1.2", "fabric", "neoforge")
 		match("26.2", "fabric", "neoforge")
 		match("26.3", "fabric", "neoforge")
+		// Snapshot node, opt-in with -Psnapshots so builds and releases skip it. No NeoForge until 26.4 is out.
+		if (providers.gradleProperty("snapshots").isPresent) match("26.4", "fabric", version = "26.4-snapshot-8")
 		vcsVersion = "26.3-fabric"
 	}
 }

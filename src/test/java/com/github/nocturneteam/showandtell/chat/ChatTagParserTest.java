@@ -54,4 +54,17 @@ class ChatTagParserTest {
 		assertTrue(ChatTagParser.containsTag("hey [i]"));
 		assertFalse(ChatTagParser.containsTag("hey \\[i] and [x]"));
 	}
+
+	@Test
+	void disabledTagsStayText() {
+		assertEquals(List.of(new Text("[inv] and "), new Tag(ChatTag.ITEM)),
+			ChatTagParser.parse("[inv] and [item]", t -> t != ChatTag.INVENTORY, 3));
+	}
+
+	@Test
+	void customTagLimit() {
+		assertEquals(List.of(new Tag(ChatTag.ITEM), new Text(" [armor]")),
+			ChatTagParser.parse("[item] [armor]", t -> true, 1));
+		assertEquals(List.of(new Text("[item]")), ChatTagParser.parse("[item]", t -> true, 0));
+	}
 }

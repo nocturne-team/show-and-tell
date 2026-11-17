@@ -27,12 +27,25 @@ repositories {
 	}
 	strictMaven("https://www.cursemaven.com", "CurseForge", "curse.maven")
 	strictMaven("https://api.modrinth.com/maven", "Modrinth", "maven.modrinth")
+	strictMaven("https://maven.theillusivec4.top", "Illusive", "top.theillusivec4.curios")
 }
 
+// Dev-run only mods, never in the built jar
+val localRuntime: Configuration by configurations.creating
+configurations.runtimeClasspath { extendsFrom(localRuntime) }
+
 dependencies {
+	val curios = "top.theillusivec4.curios:curios-neoforge:${sc.properties["deps.curios"]}"
+	compileOnly("$curios:api")
+	// `-Pcurios` adds Curios to runClient/runServer for testing [curios]
+	if (providers.gradleProperty("curios").isPresent) localRuntime(curios)
+
 	testImplementation(platform("org.junit:junit-bom:5.11.3"))
 	testImplementation("org.junit.jupiter:junit-jupiter")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	// MDG leaves Minecraft's libraries off the unit test classpath
+	testRuntimeOnly("com.google.code.gson:gson:2.14.0")
+	testRuntimeOnly("org.slf4j:slf4j-api:2.0.20")
 }
 
 neoForge {
@@ -84,6 +97,8 @@ tasks {
 			register("name", sc.properties["mod.name"])
 			register("version", sc.properties["mod.version"])
 			register("minecraft", sc.properties["mod.mc_compat"])
+			// 26.2+ shows square icons from iconFile; logoFile there is a banner
+			register("icon_key", if (sc.current.parsed >= "26.2") "iconFile" else "logoFile")
 		}
 
 		filesMatching("META-INF/neoforge.mods.toml") { expand(props) }
@@ -138,5 +153,6 @@ modrinth {
 	environment = "server_only_client_optional"
 	loaders.add("neoforge")
 	dependencies {
+		optional.project("curios")
 	}
 }

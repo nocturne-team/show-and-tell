@@ -2,15 +2,17 @@ license = "CC0-1.0"
 
 modLoader = "javafml"
 loaderVersion = "[1,)"
+issueTrackerURL = "https://github.com/nocturne-team/show-and-tell/issues"
 
 [[mods]]
 modId = "${id}"
 displayName = "${name}"
 version = "${version}"
 authors = "0x00ACAB"
-description = "Show off your held item, inventory, ender chest and armor in chat."
+displayURL = "https://modrinth.com/mod/show-and-tell"
+description = "Show off your held item, inventory, ender chest, armor and curios in chat."
 
-logoFile = "assets/showandtell/icon.png"
+${icon_key} = "assets/showandtell/icon.png"
 
 [[mixins]]
 config = "showandtell.mixins.json"
@@ -22,5 +24,13 @@ config = "showandtell.neoforge.mixins.json"
 modId = "minecraft"
 type = "required"
 versionRange = "${minecraft}"
+ordering = "NONE"
+side = "BOTH"
+
+# Adds the [curios] tag
+[[dependencies.${id}]]
+modId = "curios"
+type = "optional"
+versionRange = "*"
 ordering = "NONE"
 side = "BOTH"

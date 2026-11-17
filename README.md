@@ -10,6 +10,7 @@ Type a tag anywhere in a message and it turns into something people can hover:
 | `[inv]` | `[inventory]` | Your inventory, hotbar at the bottom |
 | `[ender]` | `[ec]`, `[enderchest]` | Your ender chest |
 | `[armor]` | `[armour]` | Your armor, plus your offhand if it holds something |
+| `[curios]` | `[curio]` | Your equipped [Curios](https://modrinth.com/mod/curios) (NeoForge, only when Curios is installed) |
 
 Up to three tags per message are replaced. Write `\[item]` to send the tag as plain text.
 
@@ -24,6 +25,23 @@ Players with the mod installed get a bit more:
 - inventories, ender chests and armor show as a grid of inventory slots instead of a list
 - typing `[` in chat pops up the available tags
 
+## Config
+
+The server reads `config/showandtell.json`, written with defaults on first start. Restart the server after editing it.
+
+```jsonc
+{
+	// Tags players can't use, e.g. ["inv", "ender"]
+	"disabled_tags": [],
+	// Tags per message; extra ones stay as plain text
+	"max_tags_per_message": 3,
+	// Seconds a player waits between messages with tags, 0 = off
+	"cooldown_seconds": 0
+}
+```
+
+Disabled tags stay as typed text and don't show up in tag suggestions.
+
 ## Versions
 
 Fabric and NeoForge, Minecraft 26.1 to 26.3. Fabric needs Fabric API.
@@ -37,6 +55,8 @@ Built with [Stonecutter](https://stonecutter.kikugie.dev/). Gradle needs Java 25
 ```
 
 Jars end up in `versions/<minecraft>-<loader>/build/libs/`.
+
+Add `-Psnapshots` to also build the current Minecraft snapshot (Fabric only), and `-Pcurios` to put Curios in NeoForge dev runs.
 
 ## Credits
 

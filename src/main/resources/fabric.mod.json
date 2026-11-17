@@ -5,6 +5,11 @@
 	"name": "${name}",
 	"description": "Show off your held item, inventory, ender chest and armor in chat.",
 	"authors": ["0x00ACAB"],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/show-and-tell",
+		"sources": "https://github.com/nocturne-team/show-and-tell",
+		"issues": "https://github.com/nocturne-team/show-and-tell/issues"
+	},
 	"license": "CC0-1.0",
 	"icon": "assets/showandtell/icon.png",
 	"environment": "*",

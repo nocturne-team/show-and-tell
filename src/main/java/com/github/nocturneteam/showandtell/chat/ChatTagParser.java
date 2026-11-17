@@ -3,10 +3,11 @@ package com.github.nocturneteam.showandtell.chat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /** Splits a chat message into plain text and {@link ChatTag}s like {@code [item]}. */
 public final class ChatTagParser {
-	/** Tags past this count stay as plain text, so one message can't carry a huge payload. */
+	/** Default for tags per message; extra ones stay as plain text so one message can't carry a huge payload. */
 	public static final int MAX_TAGS = 3;
 
 	public sealed interface Segment {}
@@ -22,6 +23,11 @@ public final class ChatTagParser {
 	}
 
 	public static List<Segment> parse(String message) {
+		return parse(message, tag -> true, MAX_TAGS);
+	}
+
+	/** Disabled tags and tags past {@code maxTags} stay as typed. */
+	public static List<Segment> parse(String message, Predicate<ChatTag> enabled, int maxTags) {
 		List<Segment> out = new ArrayList<>();
 		StringBuilder text = new StringBuilder();
 		int tags = 0;
@@ -38,7 +44,7 @@ public final class ChatTagParser {
 				int close = message.indexOf(']', i + 1);
 				if (close > 0) {
 					Optional<ChatTag> tag = ChatTag.byName(message.substring(i + 1, close));
-					if (tag.isPresent() && tags < MAX_TAGS) {
+					if (tag.isPresent() && enabled.test(tag.get()) && tags < maxTags) {
 						if (!text.isEmpty()) {
 							out.add(new Text(text.toString()));
 							text.setLength(0);

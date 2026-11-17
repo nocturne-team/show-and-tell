@@ -13,6 +13,7 @@ public final class ShowAndTellCommon {
 	private ShowAndTellCommon() {}
 
 	public static void init() {
+		ShowAndTellConfig.load(ModLoaderAccess.INSTANCE.configDir());
 		LOGGER.info("Show and Tell loaded on Minecraft {}", MINECRAFT);
 	}
 

@@ -28,3 +28,20 @@ jobs:
 
       - name: Build and test (${{ matrix.project }})
         run: ./gradlew :${{ matrix.project }}:build
+
+  # Upcoming Minecraft snapshot; a failure here is a heads-up, not a broken build.
+  snapshot:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Build and test (26.4 snapshot)
+        run: ./gradlew -Psnapshots :26.4-fabric:build

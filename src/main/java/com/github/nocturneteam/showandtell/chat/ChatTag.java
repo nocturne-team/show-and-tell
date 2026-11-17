@@ -1,20 +1,32 @@
 package com.github.nocturneteam.showandtell.chat;
 
+import org.jspecify.annotations.Nullable;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public enum ChatTag {
-	ITEM("item", "i"),
-	INVENTORY("inv", "inventory"),
-	ENDER("ender", "ec", "enderchest"),
-	ARMOR("armor", "armour");
+	ITEM(null, "item", "i"),
+	INVENTORY(null, "inv", "inventory"),
+	ENDER(null, "ender", "ec", "enderchest"),
+	ARMOR(null, "armor", "armour"),
+	// NeoForge only on 26.x
+	CURIOS("curios", "curios", "curio");
 
+	private final @Nullable String requiredMod;
 	private final List<String> names;
 
-	ChatTag(String... names) {
+	ChatTag(@Nullable String requiredMod, String... names) {
+		this.requiredMod = requiredMod;
 		this.names = List.of(names);
+	}
+
+	/** Mod that has to be loaded for this tag to work, if any. */
+	public Optional<String> requiredMod() {
+		return Optional.ofNullable(requiredMod);
 	}
 
 	public String primaryName() {
@@ -30,8 +42,8 @@ public enum ChatTag {
 	}
 
 	/** Strings sent to clients as custom chat completions. */
-	public static List<String> completions() {
-		return Arrays.stream(values()).map(t -> "[" + t.primaryName() + "]").toList();
+	public static List<String> completions(Predicate<ChatTag> enabled) {
+		return Arrays.stream(values()).filter(enabled).map(t -> "[" + t.primaryName() + "]").toList();
 	}
 
 	/** True when the word before the cursor is an unfinished tag, e.g. "[in". */

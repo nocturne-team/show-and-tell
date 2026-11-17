@@ -12,10 +12,15 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
+import com.github.nocturneteam.showandtell.ModLoaderAccess;
+import com.github.nocturneteam.showandtell.ShowAndTellConfig;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Server-side: replaces chat tags with components. Only vanilla hover events
@@ -23,13 +28,23 @@ import java.util.List;
  */
 public final class ChatTagDecorator {
 	private static final List<EquipmentSlot> ARMOR_SLOTS = List.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
+	// Player -> when they last used a tag, in nanoTime
+	private static final Map<UUID, Long> LAST_USE = new ConcurrentHashMap<>();
 
 	private ChatTagDecorator() {}
 
+	/** Enabled in the config and, for mod tags, the mod is loaded. */
+	public static boolean isAvailable(ChatTag tag) {
+		return ShowAndTellConfig.get().allows(tag)
+			&& tag.requiredMod().map(ModLoaderAccess.INSTANCE::isModLoaded).orElse(true);
+	}
+
 	public static Component decorate(@Nullable ServerPlayer player, Component message) {
 		if (player == null) return message;
-		List<Segment> segments = ChatTagParser.parse(message.getString());
+		ShowAndTellConfig config = ShowAndTellConfig.get();
+		List<Segment> segments = ChatTagParser.parse(message.getString(), ChatTagDecorator::isAvailable, config.maxTagsPerMessage());
 		if (segments.stream().noneMatch(s -> s instanceof Tag)) return message;
+		if (onCooldown(player, config.cooldownSeconds())) return message;
 
 		MutableComponent out = Component.empty();
 		for (Segment segment : segments) {
@@ -47,7 +62,32 @@ public final class ChatTagDecorator {
 			case INVENTORY -> container(player, tag, "%s's Inventory", inventory(player));
 			case ENDER -> container(player, tag, "%s's Ender Chest", contents(player.getEnderChestInventory()));
 			case ARMOR -> container(player, tag, "%s's Armor", armor(player));
+			case CURIOS -> container(player, tag, "%s's Curios", curios(player));
 		};
+	}
+
+	/** On cooldown the tags stay as typed and the player gets told how long is left. */
+	private static boolean onCooldown(ServerPlayer player, int cooldownSeconds) {
+		if (cooldownSeconds <= 0) return false;
+		long now = System.nanoTime();
+		Long last = LAST_USE.get(player.getUUID());
+		long cooldown = cooldownSeconds * 1_000_000_000L;
+		if (last != null && now - last < cooldown) {
+			long left = Math.ceilDiv(cooldown - (now - last), 1_000_000_000L);
+			player.sendSystemMessage(Component.translatableWithFallback("showandtell.cooldown", "Wait %s s before showing things again", left)
+				.withStyle(ChatFormatting.RED), true);
+			return true;
+		}
+		LAST_USE.put(player.getUUID(), now);
+		return false;
+	}
+
+	private static SharedContainer.Slots curios(ServerPlayer player) {
+		//? if neoforge {
+		/*return com.github.nocturneteam.showandtell.compat.CuriosCompat.slots(player);
+		*///?} else {
+		return new SharedContainer.Slots(List.of(), List.of());
+		//?}
 	}
 
 	/** Head to feet, plus the offhand only when something is in it. */
@@ -67,8 +107,12 @@ public final class ChatTagDecorator {
 	}
 
 	private static Component container(ServerPlayer player, ChatTag tag, String fallback, List<ItemStack> items) {
+		return container(player, tag, fallback, new SharedContainer.Slots(items, List.of()));
+	}
+
+	private static Component container(ServerPlayer player, ChatTag tag, String fallback, SharedContainer.Slots slots) {
 		Component label = Component.translatableWithFallback("showandtell.tag." + tag.primaryName(), fallback, player.getDisplayName());
-		ItemStack carrier = SharedContainer.create(tag, label, items);
+		ItemStack carrier = SharedContainer.create(tag, label, slots);
 		return Component.literal("[").append(label).append("]")
 			.withStyle(ChatFormatting.AQUA)
 			.withStyle(s -> s.withHoverEvent(new HoverEvent.ShowItem(ItemStackTemplate.fromNonEmptyStack(carrier))));

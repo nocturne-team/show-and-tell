@@ -1,5 +1,7 @@
 package com.github.nocturneteam.showandtell;
 
+import java.nio.file.Path;
+
 // Loader-specific bits behind one interface.
 public sealed interface ModLoaderAccess {
 	ModLoaderAccess INSTANCE =
@@ -9,6 +11,8 @@ public sealed interface ModLoaderAccess {
 	boolean isClient();
 
 	boolean isModLoaded(String id);
+
+	Path configDir();
 
 	//? if fabric {
 	final class FabricLoaderAccess implements ModLoaderAccess {
@@ -22,6 +26,11 @@ public sealed interface ModLoaderAccess {
 		@Override
 		public boolean isModLoaded(String id) {
 			return loader.isModLoaded(id);
+		}
+
+		@Override
+		public Path configDir() {
+			return loader.getConfigDir();
 		}
 	}
 	//?} elif neoforge {
@@ -37,6 +46,11 @@ public sealed interface ModLoaderAccess {
 		@Override
 		public boolean isModLoaded(String id) {
 			return mods.getModFileById(id) != null;
+		}
+
+		@Override
+		public Path configDir() {
+			return net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get();
 		}
 	}
 	*///?}

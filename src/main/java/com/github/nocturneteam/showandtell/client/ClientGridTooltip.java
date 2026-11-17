@@ -3,7 +3,11 @@ package com.github.nocturneteam.showandtell.client;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+//? if >26.3 {
+/*import net.minecraft.client.gui.GuiPipeline;
+*///?} else {
 import net.minecraft.client.renderer.RenderPipelines;
+//?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
@@ -42,16 +46,25 @@ public class ClientGridTooltip implements ClientTooltipComponent {
 			int sx = x + (i % grid.columns()) * SLOT;
 			int row = i / grid.columns();
 			int sy = y + row * SLOT + (hasGap() && row >= grid.gapBeforeRow() ? GAP : 0);
-			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_SPRITE, sx, sy, SLOT, SLOT);
+			blit(graphics, SLOT_SPRITE, sx, sy, SLOT);
 			ItemStack stack = i < grid.items().size() ? grid.items().get(i) : ItemStack.EMPTY;
 			if (stack.isEmpty()) {
 				if (i < grid.emptyIcons().size()) {
-					graphics.blitSprite(RenderPipelines.GUI_TEXTURED, grid.emptyIcons().get(i), sx + 1, sy + 1, 16, 16);
+					blit(graphics, grid.emptyIcons().get(i), sx + 1, sy + 1, 16);
 				}
 				continue;
 			}
 			graphics.item(stack, sx + 1, sy + 1);
 			graphics.itemDecorations(font, stack, sx + 1, sy + 1);
 		}
+	}
+
+	private static void blit(GuiGraphicsExtractor graphics, Identifier sprite, int x, int y, int size) {
+		// 26.4 moved GUI pipelines to their own type
+		//? if >26.3 {
+		/*graphics.blitSprite(GuiPipeline.TEXTURED, sprite, x, y, size, size);
+		*///?} else {
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, size, size);
+		//?}
 	}
 }
