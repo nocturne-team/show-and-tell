@@ -30,5 +30,8 @@
 		"minecraft": "${minecraft}",
 		"fabric-message-api-v1": "*",
 		"fabric-rendering-v1": "*"
+	},
+	"suggests": {
+		"fabric-permissions-api-v0": "*"
 	}
 }

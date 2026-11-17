@@ -13,6 +13,7 @@ public enum ChatTag {
 	INVENTORY(null, "inv", "inventory"),
 	ENDER(null, "ender", "ec", "enderchest"),
 	ARMOR(null, "armor", "armour"),
+	POS(null, "pos", "loc", "coords"),
 	// NeoForge only on 26.x
 	CURIOS("curios", "curios", "curio");
 

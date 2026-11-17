@@ -39,6 +39,9 @@ dependencies {
 	compileOnly("$curios:api")
 	// `-Pcurios` adds Curios to runClient/runServer for testing [curios]
 	if (providers.gradleProperty("curios").isPresent) localRuntime(curios)
+	// `-Pluckperms` does the same for LuckPerms, to test permission nodes
+	val luckperms = findProperty("deps.luckperms") as String?
+	if (providers.gradleProperty("luckperms").isPresent && luckperms != null) localRuntime("maven.modrinth:luckperms:$luckperms")
 
 	testImplementation(platform("org.junit:junit-bom:5.11.3"))
 	testImplementation("org.junit.jupiter:junit-jupiter")

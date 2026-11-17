@@ -4,9 +4,12 @@ import com.github.nocturneteam.showandtell.chat.ChatTagParser.Segment;
 import com.github.nocturneteam.showandtell.chat.ChatTagParser.Tag;
 import com.github.nocturneteam.showandtell.chat.ChatTagParser.Text;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -14,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import com.github.nocturneteam.showandtell.ModLoaderAccess;
 import com.github.nocturneteam.showandtell.ShowAndTellConfig;
+import com.github.nocturneteam.showandtell.TagPermissions;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -39,12 +43,17 @@ public final class ChatTagDecorator {
 			&& tag.requiredMod().map(ModLoaderAccess.INSTANCE::isModLoaded).orElse(true);
 	}
 
+	/** Available on this server and the player has its permission. */
+	public static boolean canUse(ServerPlayer player, ChatTag tag) {
+		return isAvailable(tag) && TagPermissions.canUse(player, tag);
+	}
+
 	public static Component decorate(@Nullable ServerPlayer player, Component message) {
 		if (player == null) return message;
 		ShowAndTellConfig config = ShowAndTellConfig.get();
-		List<Segment> segments = ChatTagParser.parse(message.getString(), ChatTagDecorator::isAvailable, config.maxTagsPerMessage());
+		List<Segment> segments = ChatTagParser.parse(message.getString(), tag -> canUse(player, tag), config.maxTagsPerMessage());
 		if (segments.stream().noneMatch(s -> s instanceof Tag)) return message;
-		if (onCooldown(player, config.cooldownSeconds())) return message;
+		if (config.cooldownSeconds() > 0 && !TagPermissions.bypassesCooldown(player) && onCooldown(player, config.cooldownSeconds())) return message;
 
 		MutableComponent out = Component.empty();
 		for (Segment segment : segments) {
@@ -62,8 +71,23 @@ public final class ChatTagDecorator {
 			case INVENTORY -> container(player, tag, "%s's Inventory", inventory(player));
 			case ENDER -> container(player, tag, "%s's Ender Chest", contents(player.getEnderChestInventory()));
 			case ARMOR -> container(player, tag, "%s's Armor", armor(player));
+			case POS -> position(player);
 			case CURIOS -> container(player, tag, "%s's Curios", curios(player));
 		};
+	}
+
+	/** Block position and dimension; clicking suggests a teleport for whoever is allowed to run it. */
+	private static Component position(ServerPlayer player) {
+		BlockPos pos = player.blockPosition();
+		Identifier dimension = player.level().dimension().identifier();
+		Component dimensionName = Component.translatableWithFallback(dimension.toLanguageKey("showandtell.dimension"), DimensionNames.fallback(dimension.getPath()));
+		Component label = Component.translatableWithFallback("showandtell.tag.pos", "%s, %s, %s in %s", pos.getX(), pos.getY(), pos.getZ(), dimensionName);
+		String command = "/execute in " + dimension + " run tp @s " + pos.getX() + " " + pos.getY() + " " + pos.getZ();
+		return Component.literal("[").append(label).append("]")
+			.withStyle(ChatFormatting.GREEN)
+			.withStyle(s -> s
+				.withHoverEvent(new HoverEvent.ShowText(Component.translatableWithFallback("showandtell.pos.hover", "Click to suggest a teleport here")))
+				.withClickEvent(new ClickEvent.SuggestCommand(command)));
 	}
 
 	/** On cooldown the tags stay as typed and the player gets told how long is left. */

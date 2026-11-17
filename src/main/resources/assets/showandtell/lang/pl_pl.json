@@ -1,0 +1,12 @@
+{
+	"showandtell.tag.inv": "Ekwipunek gracza %s",
+	"showandtell.tag.ender": "Skrzynia Kresu gracza %s",
+	"showandtell.tag.armor": "Zbroja gracza %s",
+	"showandtell.tag.pos": "%s, %s, %s (%s)",
+	"showandtell.tag.curios": "Curios gracza %s",
+	"showandtell.cooldown": "Poczekaj %s s, zanim znów coś pokażesz",
+	"showandtell.pos.hover": "Kliknij, aby wstawić komendę teleportu w to miejsce",
+	"showandtell.dimension.minecraft.overworld": "Świat zwykły",
+	"showandtell.dimension.minecraft.the_nether": "Nether",
+	"showandtell.dimension.minecraft.the_end": "Kres"
+}

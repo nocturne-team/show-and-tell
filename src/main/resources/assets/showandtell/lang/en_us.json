@@ -2,6 +2,11 @@
 	"showandtell.tag.inv": "%s's Inventory",
 	"showandtell.tag.ender": "%s's Ender Chest",
 	"showandtell.tag.armor": "%s's Armor",
+	"showandtell.tag.pos": "%s, %s, %s in %s",
 	"showandtell.tag.curios": "%s's Curios",
-	"showandtell.cooldown": "Wait %s s before showing things again"
+	"showandtell.cooldown": "Wait %s s before showing things again",
+	"showandtell.pos.hover": "Click to suggest a teleport here",
+	"showandtell.dimension.minecraft.overworld": "the Overworld",
+	"showandtell.dimension.minecraft.the_nether": "the Nether",
+	"showandtell.dimension.minecraft.the_end": "the End"
 }

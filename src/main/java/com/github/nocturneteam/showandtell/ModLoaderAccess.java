@@ -14,6 +14,8 @@ public sealed interface ModLoaderAccess {
 
 	Path configDir();
 
+	boolean hasPermission(net.minecraft.server.level.ServerPlayer player, String node, boolean opOnly);
+
 	//? if fabric {
 	final class FabricLoaderAccess implements ModLoaderAccess {
 		private final net.fabricmc.loader.api.FabricLoader loader = net.fabricmc.loader.api.FabricLoader.getInstance();
@@ -31,6 +33,25 @@ public sealed interface ModLoaderAccess {
 		@Override
 		public Path configDir() {
 			return loader.getConfigDir();
+		}
+
+		@Override
+		public boolean hasPermission(net.minecraft.server.level.ServerPlayer player, String node, boolean opOnly) {
+			if (loader.isModLoaded("fabric-permissions-api-v0")) return FabricPermissions.check(player, node, opOnly);
+			return !opOnly || TagPermissions.isOp(player);
+		}
+	}
+
+	// Separate class so fabric-permissions-api only loads when it's installed
+	final class FabricPermissions {
+		static boolean check(net.minecraft.server.level.ServerPlayer player, String node, boolean opOnly) {
+			// No fabric-permissions-api build for the 26.4 snapshots yet
+			//? if >26.3 {
+			/*return !opOnly || TagPermissions.isOp(player);
+			*///?} else {
+			return me.lucko.fabric.api.permissions.v0.Permissions.check(player, node,
+				opOnly ? net.minecraft.server.permissions.PermissionLevel.GAMEMASTERS : net.minecraft.server.permissions.PermissionLevel.ALL);
+			//?}
 		}
 	}
 	//?} elif neoforge {
@@ -51,6 +72,11 @@ public sealed interface ModLoaderAccess {
 		@Override
 		public Path configDir() {
 			return net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get();
+		}
+
+		@Override
+		public boolean hasPermission(net.minecraft.server.level.ServerPlayer player, String node, boolean opOnly) {
+			return NeoForgePermissions.check(player, node, opOnly);
 		}
 	}
 	*///?}

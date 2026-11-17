@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// Tells every client which chat tags this server allows; vanilla clients complete them with Tab.
+// Tells each client which chat tags they may use; vanilla clients complete them with Tab.
 @Mixin(PlayerList.class)
 public class PlayerListMixin {
 	@Inject(method = "placeNewPlayer", at = @At("TAIL"))
 	private void showandtell$sendTagCompletions(Connection connection, ServerPlayer player, CommonListenerCookie cookie, CallbackInfo ci) {
-		player.connection.send(new ClientboundCustomChatCompletionsPacket(ClientboundCustomChatCompletionsPacket.Action.ADD, ChatTag.completions(ChatTagDecorator::isAvailable)));
+		player.connection.send(new ClientboundCustomChatCompletionsPacket(ClientboundCustomChatCompletionsPacket.Action.ADD, ChatTag.completions(tag -> ChatTagDecorator.canUse(player, tag))));
 	}
 }

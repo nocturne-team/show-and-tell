@@ -10,6 +10,7 @@ Type a tag anywhere in a message and it turns into something people can hover:
 | `[inv]` | `[inventory]` | Your inventory, hotbar at the bottom |
 | `[ender]` | `[ec]`, `[enderchest]` | Your ender chest |
 | `[armor]` | `[armour]` | Your armor, plus your offhand if it holds something |
+| `[pos]` | `[loc]`, `[coords]` | Your coordinates and dimension; clicking it fills in a teleport command |
 | `[curios]` | `[curio]` | Your equipped [Curios](https://modrinth.com/mod/curios) (NeoForge, only when Curios is installed) |
 
 Up to three tags per message are replaced. Write `\[item]` to send the tag as plain text.
@@ -42,6 +43,17 @@ The server reads `config/showandtell.json`, written with defaults on first start
 
 Disabled tags stay as typed text and don't show up in tag suggestions.
 
+## Permissions
+
+With a permissions mod such as LuckPerms, each tag has its own node:
+
+| Node | Default |
+|---|---|
+| `showandtell.tag.<tag>` (`item`, `inv`, `ender`, `armor`, `pos`, `curios`) | everyone |
+| `showandtell.bypass.cooldown` | ops |
+
+NeoForge has the permission API built in. On Fabric it needs [fabric-permissions-api](https://modrinth.com/mod/fabric-permissions-api). Without a permissions mod, the defaults above apply.
+
 ## Versions
 
 Fabric and NeoForge, Minecraft 26.1 to 26.3. Fabric needs Fabric API.
@@ -56,7 +68,7 @@ Built with [Stonecutter](https://stonecutter.kikugie.dev/). Gradle needs Java 25
 
 Jars end up in `versions/<minecraft>-<loader>/build/libs/`.
 
-Add `-Psnapshots` to also build the current Minecraft snapshot (Fabric only), and `-Pcurios` to put Curios in NeoForge dev runs.
+Add `-Psnapshots` to also build the current Minecraft snapshot (Fabric only), `-Pcurios` to put Curios in NeoForge dev runs, and `-Pluckperms` for LuckPerms (26.3 only).
 
 ## Credits
 

@@ -1,0 +1,12 @@
+{
+	"showandtell.tag.inv": "Инвентарь %s",
+	"showandtell.tag.ender": "Сундук Края %s",
+	"showandtell.tag.armor": "Броня %s",
+	"showandtell.tag.pos": "%s, %s, %s (%s)",
+	"showandtell.tag.curios": "Аксессуары %s",
+	"showandtell.cooldown": "Подождите %s с, прежде чем снова что-то показывать",
+	"showandtell.pos.hover": "Нажмите, чтобы подставить команду телепортации сюда",
+	"showandtell.dimension.minecraft.overworld": "Верхний мир",
+	"showandtell.dimension.minecraft.the_nether": "Нижний мир",
+	"showandtell.dimension.minecraft.the_end": "Край"
+}
