@@ -39,6 +39,15 @@ dependencies {
 	compileOnly("$curios:api")
 	// `-Pcurios` adds Curios to runClient/runServer for testing [curios]
 	if (providers.gradleProperty("curios").isPresent) localRuntime(curios)
+	// Optional [backpack] support
+	val backpacks = listOf(
+		"maven.modrinth:travelersbackpack:${sc.properties["deps.travelers"]}",
+		"maven.modrinth:sophisticated-backpacks:${sc.properties["deps.sophisticated"]}",
+		"maven.modrinth:sophisticated-core:${sc.properties["deps.sophisticated_core"]}"
+	)
+	backpacks.forEach { compileOnly(it) }
+	// `-Pbackpacks` adds both backpack mods to dev runs
+	if (providers.gradleProperty("backpacks").isPresent) backpacks.forEach { localRuntime(it) }
 	// `-Pluckperms` does the same for LuckPerms, to test permission nodes
 	val luckperms = findProperty("deps.luckperms") as String?
 	if (providers.gradleProperty("luckperms").isPresent && luckperms != null) localRuntime("maven.modrinth:luckperms:$luckperms")
@@ -157,5 +166,7 @@ modrinth {
 	loaders.add("neoforge")
 	dependencies {
 		optional.project("curios")
+		optional.project("travelersbackpack")
+		optional.project("sophisticated-backpacks")
 	}
 }

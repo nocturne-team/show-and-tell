@@ -18,11 +18,13 @@ import net.minecraft.world.item.ItemStackTemplate;
 import com.github.nocturneteam.showandtell.ModLoaderAccess;
 import com.github.nocturneteam.showandtell.ShowAndTellConfig;
 import com.github.nocturneteam.showandtell.TagPermissions;
+import com.github.nocturneteam.showandtell.compat.BackpackCompat;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,7 +42,7 @@ public final class ChatTagDecorator {
 	/** Enabled in the config and, for mod tags, the mod is loaded. */
 	public static boolean isAvailable(ChatTag tag) {
 		return ShowAndTellConfig.get().allows(tag)
-			&& tag.requiredMod().map(ModLoaderAccess.INSTANCE::isModLoaded).orElse(true);
+			&& (tag.requiredMods().isEmpty() || tag.requiredMods().stream().anyMatch(ModLoaderAccess.INSTANCE::isModLoaded));
 	}
 
 	/** Available on this server and the player has its permission. */
@@ -74,6 +76,10 @@ public final class ChatTagDecorator {
 			case ARMOR -> container(player, tag, "%s's Armor", armor(player));
 			case POS -> position(player);
 			case CURIOS -> container(player, tag, "%s's Curios", curios(player));
+			case BACKPACK -> BackpackCompat.find(player)
+				.map(slots -> container(player, tag, "%s's Backpack", slots))
+				// No backpack: leave the tag as typed
+				.orElse(Component.literal("[backpack]"));
 		};
 	}
 
@@ -140,7 +146,10 @@ public final class ChatTagDecorator {
 		ItemStack carrier = SharedContainer.create(tag, label, slots);
 		return Component.literal("[").append(label).append("]")
 			.withStyle(ChatFormatting.AQUA)
-			.withStyle(s -> s.withHoverEvent(new HoverEvent.ShowItem(ItemStackTemplate.fromNonEmptyStack(carrier))));
+			.withStyle(s -> s
+				.withHoverEvent(new HoverEvent.ShowItem(ItemStackTemplate.fromNonEmptyStack(carrier)))
+				// Chat only reacts to clicks on text with a click event
+				.withClickEvent(new ClickEvent.Custom(SharedContainer.OPEN, Optional.empty())));
 	}
 
 	/** Main rows first, hotbar last, like the inventory screen. */

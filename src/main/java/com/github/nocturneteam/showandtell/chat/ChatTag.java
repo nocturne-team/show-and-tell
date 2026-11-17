@@ -1,7 +1,5 @@
 package com.github.nocturneteam.showandtell.chat;
 
-import org.jspecify.annotations.Nullable;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -9,26 +7,28 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public enum ChatTag {
-	ITEM(null, "item", "i"),
-	OFFHAND(null, "offhand", "oh"),
-	INVENTORY(null, "inv", "inventory"),
-	ENDER(null, "ender", "ec", "enderchest"),
-	ARMOR(null, "armor", "armour"),
-	POS(null, "pos", "loc", "coords"),
+	ITEM(List.of(), "item", "i"),
+	OFFHAND(List.of(), "offhand", "oh"),
+	INVENTORY(List.of(), "inv", "inventory"),
+	ENDER(List.of(), "ender", "ec", "enderchest"),
+	ARMOR(List.of(), "armor", "armour"),
+	POS(List.of(), "pos", "loc", "coords"),
 	// NeoForge only on 26.x
-	CURIOS("curios", "curios", "curio");
+	CURIOS(List.of("curios"), "curios", "curio"),
+	// Traveler's Backpack (both loaders) or Sophisticated Backpacks (NeoForge)
+	BACKPACK(List.of("travelersbackpack", "sophisticatedbackpacks"), "backpack", "bp");
 
-	private final @Nullable String requiredMod;
+	private final List<String> requiredMods;
 	private final List<String> names;
 
-	ChatTag(@Nullable String requiredMod, String... names) {
-		this.requiredMod = requiredMod;
+	ChatTag(List<String> requiredMods, String... names) {
+		this.requiredMods = requiredMods;
 		this.names = List.of(names);
 	}
 
-	/** Mod that has to be loaded for this tag to work, if any. */
-	public Optional<String> requiredMod() {
-		return Optional.ofNullable(requiredMod);
+	/** At least one of these mods has to be loaded for the tag to work; empty means none needed. */
+	public List<String> requiredMods() {
+		return requiredMods;
 	}
 
 	public String primaryName() {

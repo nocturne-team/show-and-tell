@@ -4,11 +4,13 @@
 	"showandtell.tag.armor": "%s's Armor",
 	"showandtell.tag.pos": "%s, %s, %s in %s",
 	"showandtell.tag.curios": "%s's Curios",
+	"showandtell.tag.backpack": "%s's Backpack",
 	"showandtell.cooldown": "Wait %s s before showing things again",
 	"showandtell.pos.hover": "Click to suggest a teleport here",
 	"showandtell.dimension.minecraft.overworld": "the Overworld",
 	"showandtell.dimension.minecraft.the_nether": "the Nether",
 	"showandtell.dimension.minecraft.the_end": "the End",
 	"showandtell.command.reload.done": "Show and Tell config reloaded",
-	"showandtell.command.reload.failed": "Couldn't read config/showandtell.json, kept the previous settings (see the server log)"
+	"showandtell.command.reload.failed": "Couldn't read config/showandtell.json, kept the previous settings (see the server log)",
+	"showandtell.preview.hint": "Click to open"
 }

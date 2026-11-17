@@ -4,11 +4,13 @@
 	"showandtell.tag.armor": "Zbroja gracza %s",
 	"showandtell.tag.pos": "%s, %s, %s (%s)",
 	"showandtell.tag.curios": "Curios gracza %s",
+	"showandtell.tag.backpack": "Plecak gracza %s",
 	"showandtell.cooldown": "Poczekaj %s s, zanim znów coś pokażesz",
 	"showandtell.pos.hover": "Kliknij, aby wstawić komendę teleportu w to miejsce",
 	"showandtell.dimension.minecraft.overworld": "Świat zwykły",
 	"showandtell.dimension.minecraft.the_nether": "Nether",
 	"showandtell.dimension.minecraft.the_end": "Kres",
 	"showandtell.command.reload.done": "Przeładowano konfigurację Show and Tell",
-	"showandtell.command.reload.failed": "Nie udało się odczytać config/showandtell.json, zostawiono poprzednie ustawienia (zobacz log serwera)"
+	"showandtell.command.reload.failed": "Nie udało się odczytać config/showandtell.json, zostawiono poprzednie ustawienia (zobacz log serwera)",
+	"showandtell.preview.hint": "Kliknij, aby otworzyć"
 }

@@ -22,6 +22,8 @@ import java.util.Optional;
  * modded clients spot the marker and draw a slot grid.
  */
 public final class SharedContainer {
+	/** Click event id on container tags; modded clients open a preview, the server ignores it. */
+	public static final Identifier OPEN = Identifier.fromNamespaceAndPath("showandtell", "open");
 	private static final String MARKER = "showandtell";
 	private static final String SLOTS = "showandtell_slots";
 	private static final String ICONS = "showandtell_icons";
@@ -88,11 +90,6 @@ public final class SharedContainer {
 	}
 
 	public static int columns(ChatTag kind, int slots) {
-		return switch (kind) {
-			case ARMOR -> slots;
-			// One row like the armor tag, wrapping when there are lots of slots
-			case CURIOS -> Math.min(slots, 9);
-			default -> 9;
-		};
+		return GridShape.columns(kind, slots);
 	}
 }

@@ -12,6 +12,7 @@ Type a tag anywhere in a message and it turns into something people can hover:
 | `[ender]` | `[ec]`, `[enderchest]` | Your ender chest |
 | `[armor]` | `[armour]` | Your armor, plus your offhand if it holds something |
 | `[pos]` | `[loc]`, `[coords]` | Your coordinates and dimension; clicking it fills in a teleport command |
+| `[backpack]` | `[bp]` | The backpack in your hand, or the one you're wearing ([Traveler's Backpack](https://modrinth.com/mod/travelersbackpack), or [Sophisticated Backpacks](https://modrinth.com/mod/sophisticated-backpacks) on NeoForge) |
 | `[curios]` | `[curio]` | Your equipped [Curios](https://modrinth.com/mod/curios) (NeoForge, only when Curios is installed) |
 
 Up to three tags per message are replaced. Write `\[item]` to send the tag as plain text.
@@ -24,6 +25,7 @@ The server does the work, so it's the only side that needs the mod. Players with
 
 Players with the mod installed get a bit more:
 
+- clicking a container tag opens it in a screen where every item shows its full tooltip
 - inventories, ender chests and armor show as a grid of inventory slots instead of a list
 - typing `[` in chat pops up the available tags
 
@@ -50,7 +52,7 @@ With a permissions mod such as LuckPerms, each tag has its own node:
 
 | Node | Default |
 |---|---|
-| `showandtell.tag.<tag>` (`item`, `offhand`, `inv`, `ender`, `armor`, `pos`, `curios`) | everyone |
+| `showandtell.tag.<tag>` (`item`, `offhand`, `inv`, `ender`, `armor`, `pos`, `curios`, `backpack`) | everyone |
 | `showandtell.bypass.cooldown` | ops |
 | `showandtell.command.reload` | ops |
 
@@ -70,7 +72,7 @@ Built with [Stonecutter](https://stonecutter.kikugie.dev/). Gradle needs Java 25
 
 Jars end up in `versions/<minecraft>-<loader>/build/libs/`.
 
-Add `-Psnapshots` to also build the current Minecraft snapshot (Fabric only), `-Pcurios` to put Curios in NeoForge dev runs, and `-Pluckperms` for LuckPerms (26.3 only).
+Add `-Psnapshots` to also build the current Minecraft snapshot (Fabric only), `-Pcurios` to put Curios in NeoForge dev runs, `-Pbackpacks` for both backpack mods, and `-Pluckperms` for LuckPerms (26.3 only).
 
 ## Credits
 

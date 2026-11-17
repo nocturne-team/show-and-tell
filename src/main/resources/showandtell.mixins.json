@@ -6,6 +6,7 @@
 		"PlayerListMixin"
 	],
 	"client": [
+		"client.ChatScreenMixin",
 		"client.CommandSuggestionsMixin",
 		"client.ItemContainerContentsMixin",
 		"client.ItemStackMixin"
